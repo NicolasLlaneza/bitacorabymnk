@@ -17,38 +17,6 @@
 
 
 -- ─────────────────────────────────────────────────────────────────────
--- FUNCIONES DE SEGURIDAD
--- Usan SECURITY DEFINER para bypassear RLS y evitar recursión infinita
--- cuando las políticas de una tabla necesitan consultar profiles
--- ─────────────────────────────────────────────────────────────────────
-create or replace function public.is_active_admin()
-returns boolean
-language sql
-security definer
-set search_path = public
-stable
-as $$
-  select exists(
-    select 1 from public.profiles
-    where id = auth.uid() and activo = true
-  )
-$$;
-
-create or replace function public.is_superadmin()
-returns boolean
-language sql
-security definer
-set search_path = public
-stable
-as $$
-  select exists(
-    select 1 from public.profiles
-    where id = auth.uid() and rol = 'superadmin'
-  )
-$$;
-
-
--- ─────────────────────────────────────────────────────────────────────
 -- TRIGGER DE AUDITORÍA
 -- Setea automáticamente el usuario que crea cada registro.
 -- Sobreescribe cualquier valor enviado desde el cliente para evitar
@@ -92,6 +60,43 @@ comment on column public.profiles.activo is
   'Si false, el usuario no puede iniciar sesión pero sus datos asociados se preservan.';
 comment on column public.profiles.fecha_baja is
   'Fecha de baja del usuario. Si está null, está activo. Soft delete para preservar integridad histórica.';
+
+
+-- ─────────────────────────────────────────────────────────────────────
+-- FUNCIONES DE SEGURIDAD
+-- Usan SECURITY DEFINER para bypassear RLS y evitar recursión infinita
+-- cuando las políticas de una tabla necesitan consultar profiles.
+-- Se declaran DESPUÉS de crear public.profiles porque las funciones SQL
+-- (language sql) validan las referencias del body al momento de crearse
+-- (a diferencia de plpgsql, que las difiere). Antes de crear la tabla
+-- estas definiciones fallan con "relation public.profiles does not exist".
+-- ─────────────────────────────────────────────────────────────────────
+create or replace function public.is_active_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists(
+    select 1 from public.profiles
+    where id = auth.uid() and activo = true
+  )
+$$;
+
+create or replace function public.is_superadmin()
+returns boolean
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select exists(
+    select 1 from public.profiles
+    where id = auth.uid() and rol = 'superadmin'
+  )
+$$;
+
 
 alter table public.profiles enable row level security;
 
