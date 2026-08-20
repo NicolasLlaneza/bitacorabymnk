@@ -8,19 +8,44 @@
 -- Precisión: una notificación programada para las HH:MM se envía
 -- entre HH:MM y HH:MM+5min.
 --
--- Requisitos previos (habilitar desde Dashboard → Database → Extensions):
---   • pg_cron — agendar trabajos periódicos
---   • pg_net  — hacer requests HTTP desde Postgres
+-- ┌─────────────────────────────────────────────────────────────────┐
+-- │ ⚠ ANTES DE APLICAR ESTA MIGRACIÓN                                │
+-- │                                                                  │
+-- │ 1. Reemplazá SUPABASE_URL_PLACEHOLDER con la URL de tu proyecto  │
+-- │    (Dashboard → Settings → API → Project URL, sin barra final)   │
+-- │    Ej: https://abcdefghijklmnop.supabase.co                      │
+-- │                                                                  │
+-- │ 2. Reemplazá SUPABASE_ANON_KEY_PLACEHOLDER con tu anon key       │
+-- │    (Dashboard → Settings → API → anon public)                    │
+-- │                                                                  │
+-- │ Si no lo hacés, el cron se registra pero cada firing tira 404    │
+-- │ contra un dominio que no existe. La app funciona igual salvo el  │
+-- │ envío automático de notificaciones.                              │
+-- └─────────────────────────────────────────────────────────────────┘
 -- ════════════════════════════════════════════════════════════════════
+
+
+-- ─────────────────────────────────────────────────────────────────────
+-- Extensions necesarias:
+--   • pg_cron — agendar trabajos periódicos dentro de la BD
+--   • pg_net  — hacer requests HTTP salientes desde Postgres
+--
+-- CREATE EXTENSION las habilita si el binario ya está preinstalado
+-- (Supabase lo hace por default). Alternativa por UI:
+--   Dashboard → Database → Extensions → activar pg_cron y pg_net.
+-- ─────────────────────────────────────────────────────────────────────
+create extension if not exists pg_cron with schema extensions;
+create extension if not exists pg_net  with schema extensions;
+
 
 select cron.schedule(
   'process-notifications-every-5-min',
   '*/5 * * * *',
   $$
   select net.http_post(
-    url     := 'https://isswkrbmtklhogfsivce.supabase.co/functions/v1/process-notifications',
+    url     := 'SUPABASE_URL_PLACEHOLDER/functions/v1/process-notifications',
     headers := jsonb_build_object(
-      'Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlzc3drcmJtdGtsaG9nZnNpdmNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2NzM3MDUsImV4cCI6MjA5MzI0OTcwNX0.pUqzxk3m1xgAVKCOsWCBT_Aq7VIv8vob-q-6SI_mmJo',
+      'Authorization', 'Bearer SUPABASE_ANON_KEY_PLACEHOLDER',
       'Content-Type',  'application/json'
     ),
     body := '{}'::jsonb

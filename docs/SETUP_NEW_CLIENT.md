@@ -76,7 +76,23 @@ Podés usar el mismo archivo con distintos tamaños si no tenés variantes.
 
 1. En https://supabase.com/dashboard/new creá un proyecto nuevo.
 2. Guardá el **project ref** (aparece en la URL, tipo `abcdefghijklmnop`).
-3. Corré las migraciones desde tu terminal local:
+3. En **Dashboard → Settings → API**, guardate:
+   - **Project URL** (`https://<project_ref>.supabase.co`)
+   - **anon public** key (el JWT largo)
+
+### 4.1. Editar `003_schedule_notifications_cron.sql`
+
+Antes de aplicar las migraciones, abrí
+`supabase/migrations/003_schedule_notifications_cron.sql` y reemplazá los
+dos placeholders con los valores reales:
+
+- `SUPABASE_URL_PLACEHOLDER` → tu Project URL (sin barra final).
+- `SUPABASE_ANON_KEY_PLACEHOLDER` → tu anon public key.
+
+Si te olvidás, la migración se aplica igual pero el cron dispara requests
+contra un dominio inexistente y las notificaciones nunca se envían.
+
+### 4.2. Aplicar migraciones
 
 ```bash
 cd supabase
