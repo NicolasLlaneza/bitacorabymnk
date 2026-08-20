@@ -1,0 +1,46 @@
+name: Deploy Supabase Edge Functions
+
+# Deploya automáticamente todas las Edge Functions cuando hay cambios
+# en supabase/functions/** al mergear a master.
+#
+# Requiere estos secrets en el repo (Settings → Secrets and variables → Actions):
+#   SUPABASE_ACCESS_TOKEN  — token personal, se genera en
+#                            https://supabase.com/dashboard/account/tokens
+#   SUPABASE_PROJECT_REF   — el ref del proyecto (sale de la URL del
+#                            dashboard: https://supabase.com/dashboard/project/<REF>)
+#
+# También se puede disparar a mano desde la pestaña Actions de GitHub
+# (workflow_dispatch) para hacer un redeploy sin push.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'supabase/functions/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Deploy all edge functions
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_REF:  ${{ secrets.SUPABASE_PROJECT_REF }}
+        run: |
+          set -e
+          cd supabase/functions
+          for fn in */; do
+            name="${fn%/}"
+            if [ "$name" = "_shared" ]; then continue; fi
+            echo "→ Deploying $name"
+            supabase functions deploy "$name" --project-ref "$SUPABASE_PROJECT_REF"
+          done

@@ -1,0 +1,50 @@
+name: Backup de base de datos
+
+# El plan free de Supabase no incluye backups automáticos: si alguien
+# borra algo por error o hay corrupción, no hay a dónde volver.
+# Este job genera un dump semanal y lo guarda como artifact del repo
+# (privado, así que solo lo ven los colaboradores).
+#
+# Requiere el secret SUPABASE_DB_URL con la connection string de
+# Supabase → Project Settings → Database → Connection string → URI
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'   # lunes 06:00 UTC = 03:00 ARG
+  workflow_dispatch:       # permite dispararlo a mano desde la UI
+
+jobs:
+  backup:
+    name: Dump semanal
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Generar dumps
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "$DB_URL" ]; then
+            echo "Falta el secret SUPABASE_DB_URL"
+            exit 1
+          fi
+          mkdir -p backup
+          # El schema y los datos van separados: para restaurar solo
+          # estructura (entorno nuevo) no hace falta bajar todo el dump.
+          supabase db dump --db-url "$DB_URL" -f backup/schema.sql
+          supabase db dump --db-url "$DB_URL" --data-only -f backup/data.sql
+          ls -lh backup/
+
+      - name: Subir artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backup-${{ github.run_id }}
+          path: backup/
+          retention-days: 90
+          if-no-files-found: error

@@ -1,0 +1,34 @@
+{
+  "$schema": "./tenant.schema.json",
+  "_comentario": "Este archivo concentra TODA la personalización por cliente. Editar acá los datos de la empresa, colores, servicios y textos institucionales, después redeployar. Los secretos (Supabase keys, tokens) siguen viniendo por env vars, NO van acá.",
+
+  "marca": {
+    "nombre":        "Taller Ejemplo",
+    "razonSocial":   "Ejemplo SRL",
+    "emailContacto": "contacto@ejemplo.com.ar"
+  },
+
+  "contacto": {
+    "telefono":  "+54 9 11 1234-5678",
+    "whatsapp":  "5491112345678",
+    "direccion": "Av. Ejemplo 123, Ciudad",
+    "horarios":  "Lunes a viernes de 9 a 18 hs"
+  },
+
+  "colores": {
+    "primario":       "#910000",
+    "primarioBright": "#ff0000"
+  },
+
+  "tiposServicio": [
+    "Servicio genérico 1",
+    "Servicio genérico 2",
+    "Servicio genérico 3",
+    "Otro"
+  ],
+
+  "app": {
+    "titulo":                "Bitácora | Taller Ejemplo",
+    "dominioConsultaPublica": null
+  }
+}
