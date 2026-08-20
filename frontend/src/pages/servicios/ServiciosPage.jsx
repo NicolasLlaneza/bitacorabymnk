@@ -5,6 +5,7 @@ import logger from '@/lib/logger'
 import { notificar } from '@/lib/notificar'
 import { emitirServicioActualizado } from '@/lib/eventos'
 import { formatearARS, formatearKm } from '@/lib/formato'
+import { OBJETO } from '@/lib/labels'
 import Button from '@/components/Button'
 import DataTable from '@/components/DataTable'
 import EmptyState from '@/components/EmptyState'
@@ -132,7 +133,7 @@ export default function ServiciosPage() {
         <input
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder="Buscar por cliente, patente o tipo de servicio..."
+          placeholder={`Buscar por cliente, ${OBJETO.identificador.toLowerCase()} o tipo de servicio...`}
           className="w-full bg-dark-300 border border-dark-400 text-gray-100 text-sm rounded px-3 py-2 outline-none focus:border-red transition-colors placeholder:text-gray-300"
         />
       </div>
@@ -145,7 +146,7 @@ export default function ServiciosPage() {
           title={search ? 'Sin resultados' : 'No hay servicios todavía'}
           message={
             search
-              ? 'Probá con otro cliente, patente o tipo de servicio.'
+              ? `Probá con otro cliente, ${OBJETO.identificador.toLowerCase()} o tipo de servicio.`
               : 'Registrá el primer trabajo realizado.'
           }
           action={!search && (
@@ -159,7 +160,7 @@ export default function ServiciosPage() {
           {/* Desktop: tabla completa */}
           <div className="hidden md:block">
             <DataTable
-              columns={['Cliente', 'Vehículo', 'Servicio', 'Fecha', 'KM', 'Importe', 'Cobro', '']}
+              columns={['Cliente', OBJETO.singular, 'Servicio', 'Fecha', 'KM', 'Importe', 'Cobro', '']}
               minWidth={700}
             >
                   {filtrados.map(s => (
@@ -224,7 +225,7 @@ export default function ServiciosPage() {
                     <span className="text-gray-100 text-right truncate">{s.clientes?.nombre ?? '—'}</span>
                   </div>
                   <div className="flex justify-between gap-3">
-                    <span className="text-gray-300 text-xs uppercase tracking-wider">Vehículo</span>
+                    <span className="text-gray-300 text-xs uppercase tracking-wider">{OBJETO.singular}</span>
                     <span className="text-gray-100 text-right font-mono">{s.vehiculos?.patente}</span>
                   </div>
                   {(s.vehiculos?.marca || s.vehiculos?.modelo) && (

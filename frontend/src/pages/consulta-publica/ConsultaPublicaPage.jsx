@@ -7,6 +7,7 @@ import { formatearKm } from '@/lib/formato'
 import { WHATSAPP_BASE_URL } from '@/lib/whatsapp'
 import { CONTACTO_TALLER } from '@/lib/empresa'
 import { ROUTES } from '@/lib/routes'
+import { OBJETO, CONSULTA_PUBLICA } from '@/lib/labels'
 import Logo from '@/components/Logo'
 import Button from '@/components/Button'
 
@@ -86,7 +87,7 @@ export default function ConsultaPublicaPage() {
       const msg = data?.error ?? 'Ocurrió un error al consultar. Intentá de nuevo.'
       setError(msg)
     } else if (!data) {
-      setError(`No encontramos ningún vehículo con la patente ${patente}.`)
+      setError(`No encontramos ${OBJETO.articulo === 'la' ? 'ninguna' : 'ningún'} ${OBJETO.singular.toLowerCase()} con ${OBJETO.articulo} ${OBJETO.identificador.toLowerCase()} ${patente}.`)
     } else {
       setResultado(data)
       setStep('confirm')
@@ -118,10 +119,10 @@ export default function ConsultaPublicaPage() {
         {/* Título */}
         <div className="text-center mb-8 md:mb-10">
           <h2 className="text-gray-100 text-lg md:text-2xl font-bold uppercase tracking-widest mb-2">
-            Consulta de historial
+            {CONSULTA_PUBLICA.titulo}
           </h2>
           <p className="text-gray-200 text-sm md:text-base">
-            Ingresá la patente de tu vehículo para ver sus servicios
+            {CONSULTA_PUBLICA.subtitulo}
           </p>
         </div>
 
@@ -135,13 +136,13 @@ export default function ConsultaPublicaPage() {
                   setPatente(e.target.value.toUpperCase().replace(/\s/g, ''))
                   setError(null)
                 }}
-                placeholder="Ej: AB123CD"
+                placeholder={`Ej: ${OBJETO.identificadorEjemplo}`}
                 maxLength={MAX_LEN_PATENTE}
                 className="flex-1 bg-dark-200 border border-dark-400 text-gray-100 text-sm rounded px-4 py-2.5 outline-none focus:border-red transition-colors placeholder:text-gray-300 font-mono tracking-widest uppercase"
               />
               <Button type="submit" loading={loading} disabled={!captchaToken}>
                 <Search size={15} />
-                Buscar
+                {CONSULTA_PUBLICA.botonBuscar}
               </Button>
             </form>
 
@@ -167,7 +168,7 @@ export default function ConsultaPublicaPage() {
         {step === 'confirm' && resultado && (
           <div className="bg-dark-200 border border-dark-400 rounded-lg p-6 space-y-5">
             <p className="text-gray-200 text-sm text-center">
-              Encontramos el siguiente vehículo. ¿Es el tuyo?
+              Encontramos {OBJETO.articulo === 'la' ? 'la' : 'el'} siguiente {OBJETO.singular.toLowerCase()}. ¿Es {OBJETO.articulo} tuy{OBJETO.articulo === 'la' ? 'a' : 'o'}?
             </p>
 
             <div className="bg-dark-300 rounded-lg p-4 text-center space-y-1">

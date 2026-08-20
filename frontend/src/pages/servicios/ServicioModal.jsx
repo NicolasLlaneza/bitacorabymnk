@@ -11,6 +11,7 @@ import { supabase } from '@/lib/supabase'
 import logger from '@/lib/logger'
 import { normalizarPatente, detectarTipoPatente, MAX_LEN_PATENTE } from '@/lib/patente'
 import { TIPOS_SERVICIO, ROLES } from '@/lib/catalogos'
+import { OBJETO } from '@/lib/labels'
 import { normalizarTelefonoAR } from '@/lib/telefono'
 import { normalizarNombre, normalizarEmail } from '@/lib/texto'
 import { uploadPendingFotos } from '@/lib/fotosServicio'
@@ -170,7 +171,7 @@ export default function ServicioModal({ servicio, vehiculos, clientes, onSave, o
     if (!form.km && form.km !== 0) errs.km     = 'Requerido'
 
     if (modoVehiculo === 'existente') {
-      if (!form.vehiculo_id) errs.vehiculo_id = 'Seleccioná un vehículo'
+      if (!form.vehiculo_id) errs.vehiculo_id = `Seleccioná ${OBJETO.articulo === 'la' ? 'una' : 'un'} ${OBJETO.singular.toLowerCase()}`
     } else {
       if (!nuevoVehiculo.patente)      errs.nv_patente = 'Requerida'
       else if (!nuevoVehiculo.tipo_patente) errs.nv_patente = 'Formato de patente no reconocido'
@@ -285,7 +286,7 @@ export default function ServicioModal({ servicio, vehiculos, clientes, onSave, o
         {/* ─── Selector de vehículo ─── */}
         {!editando && (
           <div className="flex items-center justify-between">
-            <label className="text-gray-200 text-xs uppercase tracking-wider">Vehículo</label>
+            <label className="text-gray-200 text-xs uppercase tracking-wider">{OBJETO.singular}</label>
             {modoVehiculo === 'nuevo' && (
               <button
                 type="button"
@@ -304,7 +305,7 @@ export default function ServicioModal({ servicio, vehiculos, clientes, onSave, o
               value={form.vehiculo_id}
               onChange={handleVehiculo}
               error={errors.vehiculo_id}
-              placeholder="Buscar por patente, marca o cliente..."
+              placeholder={`Buscar por ${OBJETO.identificador.toLowerCase()}, marca o cliente...`}
               options={vehiculos.map(v => ({
                 value: v.id,
                 label: `${v.patente} — ${v.marca} ${v.modelo} (${v.clientes?.nombre})`,
@@ -323,7 +324,7 @@ export default function ServicioModal({ servicio, vehiculos, clientes, onSave, o
                 className="w-full justify-center"
                 onClick={() => setModoVehiculo('nuevo')}
               >
-                <Plus size={15} /> Nuevo vehículo
+                <Plus size={15} /> Nuevo {OBJETO.singular.toLowerCase()}
               </Button>
             )}
           </>
@@ -332,7 +333,7 @@ export default function ServicioModal({ servicio, vehiculos, clientes, onSave, o
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <Input
-                  label="Patente"
+                  label={OBJETO.identificador}
                   value={nuevoVehiculo.patente}
                   onChange={e => handlePatenteNueva(e.target.value)}
                   error={errors.nv_patente}
