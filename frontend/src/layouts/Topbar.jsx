@@ -3,12 +3,13 @@ import { LogOut } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { ROUTES } from '@/lib/routes'
+import { OBJETO } from '@/lib/labels'
 import Logo from '@/components/Logo'
 
 const titles = {
   [ROUTES.INICIO]:          'Inicio',
   [ROUTES.CLIENTES]:        'Clientes',
-  [ROUTES.VEHICULOS]:       'Vehículos',
+  [ROUTES.VEHICULOS]:       OBJETO.plural,
   [ROUTES.SERVICIOS]:       'Servicios',
   [ROUTES.NOTIFICACIONES]:  'Notificaciones',
   [ROUTES.CONFIG_USUARIOS]: 'Usuarios',

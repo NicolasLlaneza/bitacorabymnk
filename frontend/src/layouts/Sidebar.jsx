@@ -3,11 +3,12 @@ import { Users, Car, Wrench, Bell, LogOut, UserCog, LayoutDashboard } from 'luci
 import Logo from '@/components/Logo'
 import { supabase } from '@/lib/supabase'
 import { ROUTES } from '@/lib/routes'
+import { OBJETO } from '@/lib/labels'
 
 const navItems = [
   { to: ROUTES.INICIO,         icon: LayoutDashboard, label: 'Inicio'         },
   { to: ROUTES.CLIENTES,       icon: Users,           label: 'Clientes'       },
-  { to: ROUTES.VEHICULOS,      icon: Car,             label: 'Vehículos'      },
+  { to: ROUTES.VEHICULOS,      icon: Car,             label: OBJETO.plural    },
   { to: ROUTES.SERVICIOS,      icon: Wrench,          label: 'Servicios'      },
   { to: ROUTES.NOTIFICACIONES, icon: Bell,            label: 'Notificaciones' },
 ]

@@ -7,6 +7,7 @@ import { emitirVehiculoActualizado } from '@/lib/eventos'
 import { normalizarPatente, detectarTipoPatente, MAX_LEN_PATENTE, tipoLabelsCortos as tipoLabels } from '@/lib/patente'
 import { formatearKm } from '@/lib/formato'
 import { normalizarNombre } from '@/lib/texto'
+import { OBJETO } from '@/lib/labels'
 import Button from '@/components/Button'
 import Input from '@/components/Input'
 import Select from '@/components/Select'
@@ -68,7 +69,7 @@ function VehiculoModal({ vehiculo, clientes, onSave, onClose }) {
   }
 
   return (
-    <Modal title={vehiculo ? 'Editar vehículo' : 'Nuevo vehículo'} onClose={onClose}>
+    <Modal title={vehiculo ? `Editar ${OBJETO.singular.toLowerCase()}` : `Nuevo ${OBJETO.singular.toLowerCase()}`} onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <Select
           label="Cliente"
@@ -85,11 +86,11 @@ function VehiculoModal({ vehiculo, clientes, onSave, onClose }) {
         <div className="grid grid-cols-2 gap-3">
           <div>
             <Input
-              label="Patente"
+              label={OBJETO.identificador}
               value={form.patente}
               onChange={e => handlePatente(e.target.value)}
               error={errors.patente}
-              placeholder="AB123CD"
+              placeholder={OBJETO.identificadorEjemplo}
               maxLength={MAX_LEN_PATENTE}
             />
             {form.tipo_patente && (
@@ -190,18 +191,18 @@ export default function VehiculosPage() {
       const { data, error } = await supabase
         .from('vehiculos').update(form).eq('id', editing.id)
         .select('*, clientes(nombre)').single()
-      if (error) { notificar.error('No se pudo editar el vehículo', error); return }
+      if (error) { notificar.error(`No se pudo editar ${OBJETO.articulo} ${OBJETO.singular.toLowerCase()}`, error); return }
       setVehiculos(prev => prev.map(v => v.id === editing.id ? data : v))
       emitirVehiculoActualizado({ id: data.id, tipo: 'update' })
-      notificar.exito('Vehículo actualizado')
+      notificar.exito(`${OBJETO.singular} actualizado`)
     } else {
       const { data, error } = await supabase
         .from('vehiculos').insert(form)
         .select('*, clientes(nombre)').single()
-      if (error) { notificar.error('No se pudo crear el vehículo', error); return }
+      if (error) { notificar.error(`No se pudo crear ${OBJETO.articulo} ${OBJETO.singular.toLowerCase()}`, error); return }
       setVehiculos(prev => [data, ...prev])
       emitirVehiculoActualizado({ id: data.id, tipo: 'create' })
-      notificar.exito('Vehículo creado')
+      notificar.exito(`${OBJETO.singular} creado`)
     }
     setModalOpen(false)
   }
@@ -217,13 +218,13 @@ export default function VehiculosPage() {
       return
     }
     if (!data || data.length === 0) {
-      notificar.error('No se pudo dar de baja el vehículo. Refrescá y volvé a intentar.')
+      notificar.error(`No se pudo dar de baja ${OBJETO.articulo} ${OBJETO.singular.toLowerCase()}. Refrescá y volvé a intentar.`)
       return
     }
     setVehiculos(prev => prev.map(v => v.id === id ? { ...v, activo: false } : v))
     setDeletingId(null)
     emitirVehiculoActualizado({ id, tipo: 'delete' })
-    notificar.exito('Vehículo dado de baja')
+    notificar.exito(`${OBJETO.singular} dado de baja`)
   }
 
   async function handleReactivate(id) {
@@ -237,12 +238,12 @@ export default function VehiculosPage() {
       return
     }
     if (!data || data.length === 0) {
-      notificar.error('No se pudo reactivar el vehículo. Refrescá y volvé a intentar.')
+      notificar.error(`No se pudo reactivar ${OBJETO.articulo} ${OBJETO.singular.toLowerCase()}. Refrescá y volvé a intentar.`)
       return
     }
     setVehiculos(prev => prev.map(v => v.id === id ? { ...v, activo: true } : v))
     emitirVehiculoActualizado({ id, tipo: 'update' })
-    notificar.exito('Vehículo reactivado')
+    notificar.exito(`${OBJETO.singular} reactivado`)
   }
 
   const inactivos = vehiculos.filter(v => !v.activo).length
@@ -262,10 +263,10 @@ export default function VehiculosPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
         <p className="text-gray-200 text-sm">
-          {loading ? '...' : `${filtrados.length} vehículo${filtrados.length !== 1 ? 's' : ''}`}
+          {loading ? '...' : `${filtrados.length} ${filtrados.length === 1 ? OBJETO.singular.toLowerCase() : OBJETO.plural.toLowerCase()}`}
         </p>
         <Button onClick={openCreate}>
-          <Plus size={15} /> Nuevo vehículo
+          <Plus size={15} /> Nuevo {OBJETO.singular.toLowerCase()}
         </Button>
       </div>
 
@@ -274,7 +275,7 @@ export default function VehiculosPage() {
         <input
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder="Buscar por patente, marca, modelo o cliente..."
+          placeholder={`Buscar por ${OBJETO.identificador.toLowerCase()}, marca, modelo o cliente...`}
           className="flex-1 bg-dark-300 border border-dark-400 text-gray-100 text-sm rounded px-3 py-2 outline-none focus:border-red transition-colors placeholder:text-gray-300"
         />
         {inactivos > 0 && (
@@ -296,15 +297,15 @@ export default function VehiculosPage() {
       ) : filtrados.length === 0 ? (
         <EmptyState
           icon={Car}
-          title={search ? 'Sin resultados' : 'No hay vehículos todavía'}
+          title={search ? 'Sin resultados' : `No hay ${OBJETO.plural.toLowerCase()} todavía`}
           message={
             search
-              ? 'Probá con otra patente, marca o cliente.'
-              : 'Cargá el primer vehículo del taller.'
+              ? `Probá con otr${OBJETO.articulo === 'la' ? 'a' : 'o'} ${OBJETO.identificador.toLowerCase()}, marca o cliente.`
+              : `Cargá ${OBJETO.articulo === 'la' ? 'la primera' : 'el primer'} ${OBJETO.singular.toLowerCase()}.`
           }
           action={!search && (
             <Button onClick={openCreate}>
-              <Plus size={15} /> Nuevo vehículo
+              <Plus size={15} /> Nuevo {OBJETO.singular.toLowerCase()}
             </Button>
           )}
         />
@@ -313,7 +314,7 @@ export default function VehiculosPage() {
           {/* Desktop: tabla completa */}
           <div className="hidden md:block">
             <DataTable
-              columns={['Cliente', 'Patente', 'Tipo', 'Marca / Modelo', 'Año', 'KM', '']}
+              columns={['Cliente', OBJETO.identificador, 'Tipo', 'Marca / Modelo', 'Año', 'KM', '']}
               minWidth={700}
             >
                   {filtrados.map(v => (
