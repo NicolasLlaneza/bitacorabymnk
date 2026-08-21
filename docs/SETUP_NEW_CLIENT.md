@@ -163,14 +163,37 @@ automáticamente las Edge Functions.
 
 ## 9. Crear el primer superadmin
 
-En Supabase → Authentication → Users → Add user, creá un usuario con email
-y contraseña temporal. Después, en el SQL editor:
+En Supabase → Authentication → Users → **Add user** → *Create new user*:
+
+- Email: el que vaya a usar la persona para entrar.
+- Password: una que elijas vos (esta NO es temporal — la vas a usar tal cual).
+- Tildá **Auto Confirm User** para saltear la verificación por mail.
+
+El trigger `handle_new_user` (migración 002/012/015) crea la fila en
+`public.profiles` automáticamente, con `rol = 'admin'`. Sólo falta
+promoverla a superadmin desde el **SQL Editor**:
 
 ```sql
-insert into public.profiles (id, email, nombre, rol, activo)
-select id, email, 'Nombre Apellido', 'superadmin', true
-from auth.users where email = '<el_email_creado>';
+update public.profiles
+   set rol    = 'superadmin',
+       nombre = 'Nombre Apellido',
+       activo = true
+ where email = '<el_email_creado>';
 ```
+
+Verificá que haya afectado una fila:
+
+```sql
+select email, nombre, rol, activo, debe_cambiar_password
+  from public.profiles;
+```
+
+> No uses `insert` acá: la fila ya existe por el trigger y el insert
+> rebota por clave duplicada. El primer superadmin queda con
+> `debe_cambiar_password = false` porque la contraseña la eligió su
+> propio dueño en el dashboard. Los usuarios que ese superadmin cree
+> después desde la app sí arrancan con el flag en true y el sistema
+> les fuerza el cambio en el primer ingreso.
 
 ## 10. Verificar
 
