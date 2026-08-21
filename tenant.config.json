@@ -5,7 +5,8 @@
   "marca": {
     "nombre":        "MNK Labs",
     "razonSocial":   "MNK Labs",
-    "emailContacto": "hola@mnk-labs.com"
+    "emailContacto": "hola@mnk-labs.com",
+    "logoCompacto":  { "base": "MNK", "acento": " Labs" }
   },
 
   "contacto": {

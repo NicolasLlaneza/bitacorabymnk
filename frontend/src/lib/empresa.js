@@ -13,6 +13,15 @@ export const NOMBRE_MARCA   = tenant.marca.nombre
 export const NOMBRE_LEGAL   = tenant.marca.razonSocial
 export const EMAIL_CONTACTO = tenant.marca.emailContacto
 
+// Texto del logo en su versión compacta (topbar mobile) y como fallback
+// cuando /public/logo.png todavía no está subido. Se parte en dos tramos
+// para pintar el segundo con el color primario de la marca.
+// Si el tenant no lo define, usamos el nombre completo sin acento.
+export const LOGO_COMPACTO = {
+  base:   tenant.marca.logoCompacto?.base   ?? tenant.marca.nombre,
+  acento: tenant.marca.logoCompacto?.acento ?? '',
+}
+
 // Datos que se muestran en el pie de la consulta pública.
 // Un valor null/'' oculta la fila correspondiente.
 export const CONTACTO_TALLER = {
