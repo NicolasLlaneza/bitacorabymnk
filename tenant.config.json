@@ -3,49 +3,53 @@
   "_comentario": "Este archivo concentra TODA la personalización por cliente. Editar acá los datos de la empresa, labels, colores, servicios y textos institucionales, después redeployar. Los secretos (Supabase keys, tokens) siguen viniendo por env vars, NO van acá.",
 
   "marca": {
-    "nombre":        "Taller Ejemplo",
-    "razonSocial":   "Ejemplo SRL",
-    "emailContacto": "contacto@ejemplo.com.ar"
+    "nombre":        "MNK Labs",
+    "razonSocial":   "MNK Labs",
+    "emailContacto": "hola@mnk-labs.com"
   },
 
   "contacto": {
-    "telefono":  "+54 9 11 1234-5678",
-    "whatsapp":  "5491112345678",
-    "direccion": "Av. Ejemplo 123, Ciudad",
+    "telefono":  "+54 9 261 XXX-XXXX",
+    "whatsapp":  "549261XXXXXXX",
+    "direccion": "Mendoza, Argentina",
     "horarios":  "Lunes a viernes de 9 a 18 hs"
   },
 
   "colores": {
-    "primario":       "#910000",
-    "primarioBright": "#ff0000"
+    "primario":       "#2563eb",
+    "primarioBright": "#3b82f6"
   },
 
   "tiposServicio": [
-    "Servicio genérico 1",
-    "Servicio genérico 2",
-    "Servicio genérico 3",
-    "Otro"
+    "Desarrollo Web",
+    "Diseño UX/UI",
+    "Consultoría IT",
+    "Marketing Digital",
+    "Estrategia de Marca",
+    "SEO",
+    "Redes Sociales",
+    "Automatizaciones"
   ],
 
-  "_labelsComment": "Labels de la entidad principal ('objeto de servicio'). Para taller: Vehículo/Patente. Para consultoría: Proyecto/Código. Para vet: Mascota/Chip. Cambia los rótulos de la UI sin tocar el schema de la BD.",
+  "_labelsComment": "Labels de la entidad principal ('objeto de servicio'). Para MNK Labs: Proyecto/Código. Cambia los rótulos de la UI sin tocar el schema de la BD.",
   "labels": {
     "objeto": {
-      "singular":            "Vehículo",
-      "plural":              "Vehículos",
+      "singular":            "Proyecto",
+      "plural":              "Proyectos",
       "articulo":            "el",
-      "identificador":       "Patente",
-      "identificadorEjemplo": "AB123CD",
-      "identificadorAyuda":  "Ingresá la patente sin guiones ni espacios."
+      "identificador":       "Código",
+      "identificadorEjemplo": "PROY-001",
+      "identificadorAyuda":  "Código interno del proyecto."
     },
     "consultaPublica": {
-      "titulo":     "Consulta de historial",
-      "subtitulo":  "Ingresá la patente de tu vehículo para ver sus servicios",
+      "titulo":     "Consulta de estado",
+      "subtitulo":  "Ingresá el código de tu proyecto para ver el avance",
       "botonBuscar": "Buscar"
     }
   },
 
   "app": {
-    "titulo":                "Bitácora | Taller Ejemplo",
+    "titulo":                "MNK Labs | Bitácora",
     "dominioConsultaPublica": null
   }
 }
