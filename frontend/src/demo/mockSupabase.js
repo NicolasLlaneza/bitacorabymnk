@@ -14,7 +14,7 @@
 import { crearDatosDemo, FOTOS_DEMO, DEMO_USER_ID } from './seed'
 import { fechaHoyAR } from '@/lib/fecha'
 
-const STORAGE_KEY = 'bitacora-demo:v1'
+const STORAGE_KEY = 'bitacora-demo:v2'
 const SESSION_KEY = 'bitacora-demo:sesion'
 const LATENCIA_MS = 120
 
@@ -39,7 +39,7 @@ const DEFAULTS = {
   clientes:       { tipo: 'persona', canal_preferido: 'WhatsApp', estado: 'nuevo', acepta_whatsapp: true, activo: true, fecha_baja: null, email: null, documento: null, contacto_nombre: null },
   vehiculos:      { km: 0, activo: true, anio: null },
   servicios:      { cobrado: false, fecha_cobro: null, producto: null, importe: null, observaciones: null },
-  notificaciones: { hora_envio: '09:00:00', estado: 'pendiente', enviado_at: null, error_msg: null, servicio_id: null },
+  notificaciones: { hora_envio: '09:00:00', estado: 'pendiente', enviado_at: null, error_msg: null, servicio_id: null, vehiculo_id: null },
   fotos_servicio: { orden: 0, url: '' },
   profiles:       { activo: true, fecha_baja: null, debe_cambiar_password: true },
 }

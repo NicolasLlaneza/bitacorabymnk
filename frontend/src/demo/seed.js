@@ -297,7 +297,7 @@ export function crearDatosDemo() {
     n += 1
     if (n === 3) { estado = 'fallida'; enviado_at = null; error_msg = 'El número no tiene una cuenta de WhatsApp.' }
     notificaciones.push({
-      id: uuid(), cliente_id: c.id, servicio_id: s.id,
+      id: uuid(), cliente_id: c.id, vehiculo_id: s.vehiculo_id, servicio_id: s.id,
       motivo, canal: 'WhatsApp', mensaje: mensaje(c, v, frase),
       fecha_envio: fechaEnvio, hora_envio: '09:00:00',
       estado, programado_por: perfilAlAzar(), enviado_at, error_msg,
@@ -312,7 +312,7 @@ export function crearDatosDemo() {
     const fechaEnvio = sumarDias(s.fecha, 150)
     if (fechaEnvio >= hoy) return
     notificaciones.push({
-      id: uuid(), cliente_id: c.id, servicio_id: s.id, motivo, canal: 'WhatsApp',
+      id: uuid(), cliente_id: c.id, vehiculo_id: s.vehiculo_id, servicio_id: s.id, motivo, canal: 'WhatsApp',
       mensaje: mensaje(c, v, frase), fecha_envio: fechaEnvio, hora_envio: '09:00:00',
       estado: 'enviada', programado_por: perfilAlAzar(), enviado_at: ts(fechaEnvio, 9), error_msg: null,
       created_at: s.created_at, updated_at: s.created_at,
@@ -329,7 +329,7 @@ export function crearDatosDemo() {
       const v = vehiculosPorId[s.vehiculo_id]
       const [motivo, frase] = MOTIVOS['Rotación de Neumáticos']
       notificaciones.push({
-        id: uuid(), cliente_id: c.id, servicio_id: s.id, motivo, canal: 'WhatsApp',
+        id: uuid(), cliente_id: c.id, vehiculo_id: s.vehiculo_id, servicio_id: s.id, motivo, canal: 'WhatsApp',
         mensaje: mensaje(c, v, frase), fecha_envio: hoy, hora_envio: i === 0 ? '08:00:00' : '18:00:00',
         estado: 'pendiente', programado_por: perfilAlAzar(), enviado_at: null, error_msg: null,
         created_at: ahoraISO, updated_at: ahoraISO,
