@@ -39,7 +39,8 @@ cuenta de WhatsApp (WABA) y el usuario de sistema estén en el mismo portfolio
 del negocio**. Es el camino corto y el que destraba Neu+.
 
 - Sin verificar el negocio: hasta **250 clientes distintos por día** en
-  mensajes iniciados por el negocio. Para un taller sobra.
+  mensajes iniciados por el negocio, hasta 2 números y 250 plantillas. Para
+  un taller sobra: **la verificación no es requisito para empezar**.
 - Verificado: el límite sube solo por niveles (1.000 → 10.000 → 100.000 →
   ilimitado). Conviene tramitarlo en paralelo, pero no frena el arranque.
 
@@ -78,8 +79,9 @@ Con el portfolio **del cliente** (Calper para Neu+):
 3. **Centro de seguridad → Verificación del negocio:** iniciarla (CUIT,
    constancia de AFIP, factura de servicio). Tarda de 3 a 14 días.
 4. **Medio de pago:** cargar una tarjeta en la cuenta de WhatsApp (WhatsApp
-   Manager → Configuración de pagos). Los mensajes de plantilla se cobran.
-   *A confirmar en la consola: no lo pude verificar en la documentación.*
+   Manager → Configuración de pagos), con moneda y zona horaria definidas.
+   Los mensajes de plantilla se cobran: sin medio de pago Meta los rechaza
+   con el error 131042.
 
 ### 3.2 Meta — WhatsApp Manager
 
@@ -241,3 +243,5 @@ comparte el mismo código de funciones.
 - [Pricing 2026 — DragApp](https://www.dragapp.com/blog/whatsapp-business-api-pricing/)
 - [Argentina pricing — Ominiflow](https://ominiflow.com/whatsapp-api-pricing/argentina)
 - [Error 131047 — eGrow](https://help.egrow.com/es/article/whatsapp-business-api-message-errors)
+- [Error 131042 (pago) — 360dialog](https://docs.360dialog.com/api/api-error-message-list)
+- [API sin verificación — Blueticks](https://blueticks.co/blog/whatsapp-api-without-meta-verification)
