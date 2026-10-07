@@ -5,6 +5,7 @@
 // si no está instalada.
 
 import { normalizarTelefono } from './telefono'
+import { DEMO } from './demo'
 
 /** Base URL del deep-link oficial de WhatsApp (Meta). */
 export const WHATSAPP_BASE_URL = 'https://wa.me'
@@ -18,6 +19,9 @@ export function waMeUrl(telefono, mensaje) {
   const num = normalizarTelefono(telefono)
   if (!num) return null
   const texto = encodeURIComponent(mensaje ?? '')
+  // Demo: los teléfonos son inventados. Sin número, WhatsApp abre el
+  // selector de contactos con el mensaje cargado y no le escribe a nadie.
+  if (DEMO) return `${WHATSAPP_BASE_URL}/?text=${texto}`
   return `${WHATSAPP_BASE_URL}/${num}?text=${texto}`
 }
 

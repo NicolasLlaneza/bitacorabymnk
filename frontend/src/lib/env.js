@@ -8,6 +8,10 @@
 // Se importa desde main.jsx antes de renderizar. Si algo falta y estamos
 // en producción, lanza un error que se ve en consola y el ErrorBoundary
 // muestra la pantalla de fallback.
+//
+// En modo demo (lib/demo.js) no hay backend, así que no se exige nada.
+
+import { DEMO } from './demo'
 
 const requeridas = {
   VITE_SUPABASE_URL:        import.meta.env.VITE_SUPABASE_URL,
@@ -24,6 +28,8 @@ const opcionales = {
 }
 
 export function validarEnv() {
+  if (DEMO) return
+
   const faltantes = Object.entries(requeridas)
     .filter(([, v]) => !v)
     .map(([k]) => k)

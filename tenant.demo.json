@@ -1,0 +1,40 @@
+{
+  "_comentario": "Tenant del modo demo (npm run build:demo). Un taller ficticio para mostrar el producto; los datos los genera frontend/src/demo/seed.js. No usar para un cliente real: para eso está tenant.config.json.",
+
+  "marca": {
+    "nombre":        "Taller Demo",
+    "razonSocial":   "Taller Demo SRL",
+    "emailContacto": "contacto@tallerdemo.com.ar",
+    "logoCompacto":  { "base": "BITÁCORA", "acento": "." }
+  },
+
+  "contacto": {
+    "telefono":  "+54 9 11 5555-0000",
+    "whatsapp":  null,
+    "direccion": "Av. Siempre Viva 742",
+    "horarios":  "Lunes a viernes de 8:30 a 18 hs · Sábados de 9 a 13 hs"
+  },
+
+  "colores": {
+    "primario":       "#c2410c",
+    "primarioBright": "#f97316"
+  },
+
+  "tiposServicio": [
+    "Alineación y Balanceo",
+    "Alineación",
+    "Balanceo",
+    "Rotación de Neumáticos",
+    "Equipamiento",
+    "Cambio de filtros y aceite",
+    "Reparación de pinchadura",
+    "Reparación de Tren Delantero",
+    "Servicio de Mecánica General",
+    "Otro"
+  ],
+
+  "app": {
+    "titulo":                "Bitácora · Demo",
+    "dominioConsultaPublica": null
+  }
+}

@@ -125,7 +125,7 @@ function ClienteModal({ cliente, onSave, onClose }) {
           value={form.nombre}
           onChange={e => set('nombre', e.target.value)}
           error={errors.nombre}
-          placeholder={esEmpresa ? 'Calper SA' : 'Juan García'}
+          placeholder={esEmpresa ? 'Empresa SA' : 'Juan García'}
         />
 
         <Input

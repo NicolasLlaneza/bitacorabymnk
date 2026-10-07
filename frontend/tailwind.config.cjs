@@ -2,7 +2,8 @@
 // El resto de la paleta (dark, grises, tokens semánticos) es común a todos
 // los tenants — no la exponemos como configuración porque cambiar la paleta
 // entera es un rebranding profundo, no una personalización menor.
-const tenant = require('../tenant.config.json')
+// TENANT_CONFIG lo setea vite.config.js (tenant.demo.json en modo demo).
+const tenant = require(process.env.TENANT_CONFIG ?? '../tenant.config.json')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

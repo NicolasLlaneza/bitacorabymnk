@@ -13,6 +13,9 @@ export const NOMBRE_MARCA   = tenant.marca.nombre
 export const NOMBRE_LEGAL   = tenant.marca.razonSocial
 export const EMAIL_CONTACTO = tenant.marca.emailContacto
 
+// Ejemplo para los campos de email de usuarios (login, alta de usuario).
+export const EMAIL_PLACEHOLDER = `nombre@${EMAIL_CONTACTO.split('@')[1] ?? 'empresa.com'}`
+
 // Texto del logo en su versión compacta (topbar mobile) y como fallback
 // cuando /public/logo.png todavía no está subido. Se parte en dos tramos
 // para pintar el segundo con el color primario de la marca.

@@ -4,6 +4,8 @@ import BottomNav from './BottomNav'
 import InactivityWarning from '@/components/InactivityWarning'
 import NotifVencidaToast from '@/components/NotifVencidaToast'
 import PasswordChangeReminder from '@/components/PasswordChangeReminder'
+import DemoBanner from '@/components/DemoBanner'
+import { DEMO } from '@/lib/demo'
 import { useInactivityTimeout } from '@/hooks/useInactivityTimeout'
 import { supabase } from '@/lib/supabase'
 import { useNavigate } from 'react-router-dom'
@@ -23,6 +25,7 @@ export default function AppLayout({ children }) {
       <Sidebar />
       <Topbar />
       <main className="md:ml-56 pt-14 p-4 md:px-6 md:pb-6 pb-20">
+        {DEMO && <DemoBanner />}
         {children}
       </main>
       <BottomNav />

@@ -45,7 +45,7 @@ export default function Logo({ className = '', compact = false }) {
 
   // Full sin logo.png disponible: caemos al texto en tamaño grande
   if (sinImagen) {
-    return <LogoTexto className={className} fontSize="2.25rem" />
+    return <LogoTexto className={className} fontSize="1.75rem" />
   }
 
   // Full: arte de la marca, para login y consulta pública

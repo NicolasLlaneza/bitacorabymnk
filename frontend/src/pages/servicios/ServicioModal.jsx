@@ -442,7 +442,7 @@ export default function ServicioModal({ servicio, vehiculos, clientes, onSave, o
                     value={nuevoCliente.nombre}
                     onChange={e => setNC('nombre', e.target.value)}
                     error={errors.nc_nombre}
-                    placeholder={esEmpresa ? 'Calper SA' : 'Juan García'}
+                    placeholder={esEmpresa ? 'Empresa SA' : 'Juan García'}
                   />
                   <Input
                     label="Teléfono"

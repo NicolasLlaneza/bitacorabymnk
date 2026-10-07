@@ -4,13 +4,15 @@ import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/contexts/AuthContext'
 import { ROUTES } from '@/lib/routes'
 import Logo from '@/components/Logo'
+import { EMAIL_PLACEHOLDER } from '@/lib/empresa'
+import { DEMO, DEMO_CREDENCIALES } from '@/lib/demo'
 
 export default function LoginPage() {
   const { session, loading } = useAuth()
   const navigate = useNavigate()
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState(DEMO ? DEMO_CREDENCIALES.email : '')
+  const [password, setPassword] = useState(DEMO ? DEMO_CREDENCIALES.password : '')
   const [error, setError] = useState(null)
   const [submitting, setSubmitting] = useState(false)
 
@@ -54,6 +56,12 @@ export default function LoginPage() {
             Acceso al sistema
           </p>
 
+          {DEMO && (
+            <p className="text-gray-200 text-xs leading-relaxed border border-red/40 bg-red/10 rounded px-3 py-2">
+              Demo con datos ficticios. Tocá <strong className="text-gray-100">Ingresar</strong> para entrar.
+            </p>
+          )}
+
           {/* Email */}
           <div className="space-y-1.5">
             <label className="text-gray-200 text-xs uppercase tracking-wider">
@@ -66,7 +74,7 @@ export default function LoginPage() {
               required
               autoComplete="email"
               className="w-full bg-dark-300 border border-dark-400 text-gray-100 text-sm rounded px-3 py-2.5 outline-none focus:border-red transition-colors placeholder:text-gray-300"
-              placeholder="nombre@neumasneumaticos.com.ar"
+              placeholder={EMAIL_PLACEHOLDER}
             />
           </div>
 

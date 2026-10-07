@@ -24,6 +24,11 @@ recurrentes:
 Ver [`docs/SETUP_NEW_CLIENT.md`](docs/SETUP_NEW_CLIENT.md) — 30 minutos
 end-to-end si tenés Supabase y Cloudflare Pages a mano.
 
+## Demo comercial
+
+`npm run build:demo` (en `frontend/`) genera una versión de muestra que
+corre sin backend, con un taller ficticio. Ver [`docs/DEMO.md`](docs/DEMO.md).
+
 ## Personalización
 
 Toda la personalización por cliente vive en **un solo archivo**:

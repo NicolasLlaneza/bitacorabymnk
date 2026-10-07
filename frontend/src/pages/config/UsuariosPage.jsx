@@ -12,7 +12,7 @@ import DataTable from '@/components/DataTable'
 import TableSkeleton from '@/components/TableSkeleton'
 import PasswordRequirements, { primerErrorPassword } from '@/components/PasswordRequirements'
 import { normalizarNombre, normalizarEmail } from '@/lib/texto'
-import { NOMBRE_MARCA } from '@/lib/empresa'
+import { NOMBRE_MARCA, EMAIL_PLACEHOLDER } from '@/lib/empresa'
 import { MIN_PASSWORD } from '@/lib/passwordRules'
 import { ROLES } from '@/lib/catalogos'
 
@@ -316,7 +316,7 @@ function NuevoUsuarioModal({ onCreated, onClose }) {
           value={form.email}
           onChange={e => set('email', e.target.value)}
           error={errors.email}
-          placeholder="nombre@neumasneumaticos.com.ar"
+          placeholder={EMAIL_PLACEHOLDER}
         />
         <Select
           label="Rol"
